@@ -1,0 +1,5 @@
+footer -> 관리자 페이지 이동 
+
+login ID : admin
+password : 1234
+

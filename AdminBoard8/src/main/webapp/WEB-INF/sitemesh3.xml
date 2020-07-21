@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+<!-- 모든요청이 들어올때 -->
+	<mapping path="/*" decorator="/resources/layout/layout.jsp" /> 
+	<!-- <mapping path="/content/*" decorator="/resources/layout/layout2.html" />
+	<mapping path="/admin/*" decorator="/resources/layout/layout3.html" /> -->
+</sitemesh>

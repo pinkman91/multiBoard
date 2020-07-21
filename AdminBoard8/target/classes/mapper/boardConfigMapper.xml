@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.lee.board.dao.BoardConfigDAO">
+
+	<!-- 1. 개수얻기 -->
+	<select id="selectCount" resultType="int" >
+		select count(*) from BoardConfig
+	</select>
+	<!-- 2. 1개얻기 -->
+	<select id="selectByIdx" parameterType="int" resultType="BoardConfigVO">
+		select * from BoardConfig where idx=#{idx}
+	</select>
+	
+	<select id="selectByTableName" parameterType="java.util.HashMap" resultType="BoardConfigVO">
+		select * from BoardConfig where tableName=#{tableName}
+	</select>
+	<!-- 모두 얻기 -->
+	<select id="selectList" resultType="BoardConfigVO">
+		<![CDATA[
+		select * from BoardConfig order by idx desc
+		]]>
+	</select>
+	<!-- 저장 -->
+	<insert id="insert" parameterType="BoardConfigVO">
+		INSERT INTO boardConfig VALUES
+			(boardConfig_idx_seq.nextval,#{tableName},#{boardName},#{readLevel},#{writeLevel},#{commentLevel},#{fileLevel})
+		
+	</insert>
+	<!-- 수정 -->
+	<update id="update" parameterType="BoardConfigVO">
+		update boardConfig 
+				  set 	boardName=#{boardName}, 
+				  		readLevel=#{readLevel}, writeLevel=#{writeLevel}, 
+		          		fileLevel=#{fileLevel}, commentLevel=#{commentLevel} 
+		          where 
+		          	idx=#{idx}
+	</update>
+	
+	
+	<!-- 삭제 -->
+	<select id="adminDelete" parameterType="int">
+		delete from boardConfig where idx=#{idx}
+	</select>
+	
+	
+	<!-- 테이블을 자동으로 생성하는 쿼리 -->
+	<update id="createSequence1" parameterType="java.util.HashMap">
+		CREATE SEQUENCE ${tableName}_idx_seq
+	</update>	
+	<update id="createTable1" parameterType="java.util.HashMap">
+		CREATE TABLE ${tableName}(
+			idx number(10) PRIMARY KEY,
+			name varchar2(100) NOT NULL,
+			subject varchar2(255) NOT NULL,
+			content varchar2(2000) NOT NULL,
+			regDate TIMESTAMP DEFAULT SYSDATE,
+			ip varchar2(30) NOT NULL,
+			hit number(10) DEFAULT 0
+		)
+	</update>
+	<update id="createSequence2" parameterType="java.util.HashMap">
+		CREATE SEQUENCE ${tableName}_comment_idx_seq
+	</update>	
+	<update id="createTable2" parameterType="java.util.HashMap">
+		CREATE TABLE ${tableName}_comment(
+			idx number(10) PRIMARY KEY, 
+			ref number(10) NOT NULL,	
+			name varchar2(100) NOT NULL,
+			password varchar2(100) NOT NULL,
+			content varchar2(2000) NOT NULL,
+			regDate TIMESTAMP DEFAULT SYSDATE,
+			ip varchar2(30) NOT NULL
+		)
+	</update>
+	<update id="createSequence3" parameterType="java.util.HashMap">
+		CREATE SEQUENCE ${tableName}_files_idx_seq
+	</update>	
+	<update id="createTable3" parameterType="java.util.HashMap">
+		CREATE TABLE ${tableName}_files(
+			idx NUMBER PRIMARY KEY,
+			ref NUMBER NOT NULL,
+			ofile  varchar2(255) NOT NULL,
+			sfile  varchar2(255) NOT NULL
+		)
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
